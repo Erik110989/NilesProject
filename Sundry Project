@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sundries Order App By Erik</title>
+    <style>
+        body {
+            background-color: black;
+            color: yellow;
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            color: white;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+        .section {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid yellow;
+        }
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .item-label {
+            margin: 5px 0;
+        }
+        .submit-btn {
+            background-color: yellow;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function processForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Collect form data
+            const form = event.target;
+            const formData = new FormData(form);
+
+            // Filter out empty fields
+            const filteredData = {};
+            formData.forEach((value, key) => {
+                if (value && value.trim() !== "" && value > 0) {
+                    filteredData[key] = value;
+                }
+            });
+
+            // Format the email content
+            const emailBody = `
+                Foreman Name: ${filteredData.Foreman_Name || ''}
+                Job Number: ${filteredData.Job_Number || ''}
+                Date Requested: ${filteredData.Date_Requested || ''}
+                Date Needed By: ${filteredData.Date_Needed_By || ''}
+                
+                Items Ordered:
+                ${Object.keys(filteredData)
+                    .filter(key => !['Foreman_Name', 'Job_Number', 'Date_Requested', 'Date_Needed_By', 'Additional_Supplies'].includes(key))
+                    .map(key => `${key}: ${filteredData[key]}`)
+                    .join('\n')}
+                
+                Additional Supplies:
+                ${filteredData.Additional_Supplies || 'None'}
+            `;
+
+            // Send email via mailto
+            const mailtoLink = `mailto:MuladoreErik@gmail.com?subject=Sundries Order&body=${encodeURIComponent(emailBody)}`;
+            window.location.href = mailtoLink;
+        }
+    </script>
+</head>
+<body>
+<div class="form-container">
+    <h1>Field Order App By Erik</h1>
+    <form onsubmit="processForm(event)">
+        <div class="section">
+            <h2>Order Information</h2>
+            <label class="item-label">Foreman Name: <input type="text" name="Foreman_Name" required></label>
+            <label class="item-label">Job Number: <input type="text" name="Job_Number" required></label>
+            <label class="item-label">Date Requested: <input type="date" name="Date_Requested" required></label>
+            <label class="item-label">Date Needed By: <input type="date" name="Date_Needed_By" required></label>
+        </div>
+
+<!-- General PPE -->
+        <div class="section">
+            <h2>General PPE</h2>
+            <label class="item-label">Safety Glasses (Clear): <input type="number" name="Safety_Glasses_Clear"></label>
+            <label class="item-label">Safety Glasses (Smoke): <input type="number" name="Safety_Glasses_Smoke"></label>
+            <label class="item-label">Monogoggles (Uvex): <input type="number" name="Monogoggles_Uvex"></label>
+            <label class="item-label">Clear Lenses (Uvex): <input type="number" name="Clear_Lenses_Uvex"></label>
+            <label class="item-label">Shaded Lenses (Uvex): <input type="number" name="Shaded_Lenses_Uvex"></label>
+            <label class="item-label">Hard Hat: <input type="number" name="Hard_Hat"></label>
+            <label class="item-label">Hard Hat Sweatband: <input type="number" name="Hard_Hat_Sweatband"></label>
+            <label class="item-label">Hard Hat Liner: <input type="number" name="Hard_Hat_Liner"></label>
+            <label class="item-label">Face Shield: <input type="number" name="Face_Shield"></label>
+            <label class="item-label">Face Shield Bracket: <input type="number" name="Face_Shield_Bracket"></label>
+            <label class="item-label">Ear Plugs: <input type="number" name="Ear_Plugs"></label>
+        </div>
+
+        <!-- Face Coverings -->
+        <div class="section">
+            <h2>Face Coverings</h2>
+            <label class="item-label">Spray Sock: <input type="number" name="Spray_Sock"></label>
+            <label class="item-label">Full Face Respirator-S: <input type="number" name="Full_Face_Respirator_S"></label>
+            <label class="item-label">Full Face Respirator-M: <input type="number" name="Full_Face_Respirator_M"></label>
+            <label class="item-label">Full Face Respirator-L: <input type="number" name="Full_Face_Respirator_L"></label>
+            <label class="item-label">Full Face Tear-offs: <input type="number" name="Full_Face_Tear_Offs"></label>
+            <label class="item-label">Mask Filter OV/AG/P100: <input type="number" name="Mask_Filter_OV_AG_P100"></label>
+            <label class="item-label">Mask Filter OV/P100: <input type="number" name="Mask_Filter_OV_P100"></label>
+            <label class="item-label">Mask Filter P100: <input type="number" name="Mask_Filter_P100"></label>
+            <label class="item-label">N95 Dust Mask: <input type="number" name="N95_Dust_Mask"></label>
+            <label class="item-label">Nova 3 Inners: <input type="number" name="Nova_3_Inners"></label>
+            <label class="item-label">Nova 3 Outers: <input type="number" name="Nova_3_Outers"></label>
+            <label class="item-label">Nova 3 Tear-Aways: <input type="number" name="Nova_3_Tear_Aways"></label>
+        </div>
+
+        <!-- Gloves -->
+        <div class="section">
+            <h2>Gloves</h2>
+            <label class="item-label">Leather Palm-S: <input type="number" name="Leather_Palm_S"></label>
+            <label class="item-label">Leather Palm-M: <input type="number" name="Leather_Palm_M"></label>
+            <label class="item-label">Leather Palm-L: <input type="number" name="Leather_Palm_L"></label>
+            <label class="item-label">Leather Palm-XL: <input type="number" name="Leather_Palm_XL"></label>
+            <label class="item-label">Leather Palm-2X: <input type="number" name="Leather_Palm_2X"></label>
+            <label class="item-label">Insulated-M: <input type="number" name="Insulated_M"></label>
+            <label class="item-label">Insulated-L: <input type="number" name="Insulated_L"></label>
+            <label class="item-label">Insulated-XL: <input type="number" name="Insulated_XL"></label>
+            <label class="item-label">Insulated-2X: <input type="number" name="Insulated_2X"></label>
+            <label class="item-label">Nitrile-L: <input type="number" name="Nitrile_L"></label>
+            <label class="item-label">Nitrile-XL: <input type="number" name="Nitrile_XL"></label>
+            <label class="item-label">Nitrile-2XL: <input type="number" name="Nitrile_2XL"></label>
+            <label class="item-label">Tape Gloves-S: <input type="number" name="Tape_Gloves_S"></label>
+            <label class="item-label">Tape Gloves-M: <input type="number" name="Tape_Gloves_M"></label>
+            <label class="item-label">Tape Gloves-L: <input type="number" name="Tape_Gloves_L"></label>
+            <label class="item-label">Tape Gloves-XL: <input type="number" name="Tape_Gloves_XL"></label>
+            <label class="item-label">Tape Gloves-2X: <input type="number" name="Tape_Gloves_2X"></label>
+            <label class="item-label">Chem Gloves: <input type="number" name="Chem_Gloves"></label>
+            <label class="item-label">Black Dot: <input type="number" name="Black_Dot"></label>
+            <label class="item-label">Jersey Cotton: <input type="number" name="Jersey_Cotton"></label>
+            <label class="item-label">Blast Gloves-L: <input type="number" name="Blast_Gloves_L"></label>
+            <label class="item-label">Blast Gloves-XL: <input type="number" name="Blast_Gloves_XL"></label>
+            <label class="item-label">Cut Resistant-S: <input type="number" name="Cut_Resistant_S"></label>
+            <label class="item-label">Cut Resistant-M: <input type="number" name="Cut_Resistant_M"></label>
+            <label class="item-label">Cut Resistant-L: <input type="number" name="Cut_Resistant_L"></label>
+            <label class="item-label">Cut Resistant-XL: <input type="number" name="Cut_Resistant_XL"></label>
+            <label class="item-label">Cut Resistant-2X: <input type="number" name="Cut_Resistant_2X"></label>
+        </div>
+
+        <!-- Suits -->
+        <div class="section">
+            <h2>Suits</h2>
+            <label class="item-label">Tyvek Suits-L: <input type="number" name="Tyvek_Suits_L"></label>
+            <label class="item-label">Tyvek Suits-XL: <input type="number" name="Tyvek_Suits_XL"></label>
+            <label class="item-label">Tyvek Suits-2X: <input type="number" name="Tyvek_Suits_2X"></label>
+            <label class="item-label">Tyvek Suits-3X: <input type="number" name="Tyvek_Suits_3X"></label>
+            <label class="item-label">Tyvek Suits-4X: <input type="number" name="Tyvek_Suits_4X"></label>
+            <label class="item-label">Blast Suits-L: <input type="number" name="Blast_Suits_L"></label>
+            <label class="item-label">Blast Suits-XL: <input type="number" name="Blast_Suits_XL"></label>
+            <label class="item-label">Blast Suits-2X: <input type="number" name="Blast_Suits_2X"></label>
+            <label class="item-label">Blast Suits-3X: <input type="number" name="Blast_Suits_3X"></label>
+            <label class="item-label">Blast Suits-4X: <input type="number" name="Blast_Suits_4X"></label>
+            <label class="item-label">FR Rain Jacket-S: <input type="number" name="FR_Rain_Jacket_S"></label>
+            <label class="item-label">FR Rain Suit Bibs-S: <input type="number" name="FR_Rain_Suit_Bibs_S"></label>
+            <label class="item-label">FR Rain Jacket-M: <input type="number" name="FR_Rain_Jacket_M"></label>
+            <label class="item-label">FR Rain Suit Bibs-M: <input type="number" name="FR_Rain_Suit_Bibs_M"></label>
+            <label class="item-label">FR Rain Jacket-L: <input type="number" name="FR_Rain_Jacket_L"></label>
+            <label class="item-label">FR Rain Suit Bibs-L: <input type="number" name="FR_Rain_Suit_Bibs_L"></label>
+            <label class="item-label">FR Rain Jacket-XL: <input type="number" name="FR_Rain_Jacket_XL"></label>
+            <label class="item-label">FR Rain Suit Bibs-XL: <input type="number" name="FR_Rain_Suit_Bibs_XL"></label>
+            <label class="item-label">FR Rain Jacket-2X: <input type="number" name="FR_Rain_Jacket_2X"></label>
+            <label class="item-label">FR Rain Suit Bibs-2X: <input type="number" name="FR_Rain_Suit_Bibs_2X"></label>
+            <label class="item-label">FR Rain Jacket-3X: <input type="number" name="FR_Rain_Jacket_3X"></label>
+            <label class="item-label">FR Rain Suit Bibs-3X: <input type="number" name="FR_Rain_Suit_Bibs_3X"></label>
+            <label class="item-label">FR Rain Jacket-4X: <input type="number" name="FR_Rain_Jacket_4X"></label>
+            <label class="item-label">FR Rain Suit Bibs-4X: <input type="number" name="FR_Rain_Suit_Bibs_4X"></label>
+        </div>
+
+        <!-- Brushes -->
+        <div class="section">
+            <h2>Brushes</h2>
+            <label class="item-label">1/2" Chip Brush: <input type="number" name="1_2_Chip_Brush"></label>
+            <label class="item-label">1" Chip Brush: <input type="number" name="1_Chip_Brush"></label>
+            <label class="item-label">1 1/2" Chip Brush: <input type="number" name="1_1_2_Chip_Brush"></label>
+            <label class="item-label">2" Chip Brush: <input type="number" name="2_Chip_Brush"></label>
+            <label class="item-label">3" Chip Brush: <input type="number" name="3_Chip_Brush"></label>
+            <label class="item-label">4" Chip Brush: <input type="number" name="4_Chip_Brush"></label>
+            <label class="item-label">China Bristle 2 1/2": <input type="number" name="China_Bristle_2_1_2"></label>
+            <label class="item-label">1 1/2" Angle Sash: <input type="number" name="1_1_2_Angle_Sash"></label>
+            <label class="item-label">2" Angle Sash: <input type="number" name="2_Angle_Sash"></label>
+        </div>
+
+        <!-- Buckets -->
+        <div class="section">
+            <h2>Buckets</h2>
+            <label class="item-label">1 qt Measuring Cup: <input type="number" name="1_qt_Measuring_Cup"></label>
+            <label class="item-label">2 1/2 qt Measuring Cup: <input type="number" name="2_1_2_qt_Measuring_Cup"></label>
+            <label class="item-label">5 qt Pail: <input type="number" name="5_qt_Pail"></label>
+            <label class="item-label">5 qt Liner: <input type="number" name="5_qt_Liner"></label>
+            <label class="item-label">1 Gal Grid: <input type="number" name="1_Gal_Grid"></label>
+            <label class="item-label">5 Gal Bucket: <input type="number" name="5_Gal_Bucket"></label>
+            <label class="item-label">5 Gal Grid: <input type="number" name="5_Gal_Grid"></label>
+            <label class="item-label">5 Gal Lid: <input type="number" name="5_Gal_Lid"></label>
+            <label class="item-label">Paint Tray: <input type="number" name="Paint_Tray"></label>
+            <label class="item-label">Paint Tray Liner: <input type="number" name="Paint_Tray_Liner"></label>
+        </div>
+
+        <!-- Frames & Skins -->
+        <div class="section">
+            <h2>Frames & Skins</h2>
+            <label class="item-label">12" Mini Frame: <input type="number" name="12_Mini_Frame"></label>
+            <label class="item-label">16" Mini Frame: <input type="number" name="16_Mini_Frame"></label>
+            <label class="item-label">9" Frame: <input type="number" name="9_Frame"></label>
+            <label class="item-label">Mini Skin (10 pk): <input type="number" name="Mini_Skin_10_pk"></label>
+            <label class="item-label">9" x 3/16" Skins: <input type="number" name="9_x_3_16_Skins"></label>
+            <label class="item-label">9" x 3/8" Skins: <input type="number" name="9_x_3_8_Skins"></label>
+            <label class="item-label">9" x 1/2" Skins: <input type="number" name="9_x_1_2_Skins"></label>
+            <label class="item-label">9" x 3/4" Skins: <input type="number" name="9_x_3_4_Skins"></label>
+            <label class="item-label">9" x 1 1/4" Skins: <input type="number" name="9_x_1_1_4_Skins"></label>
+        </div>
+
+        <!-- Tape -->
+        <div class="section">
+            <h2>Tape</h2>
+            <label class="item-label">1 1/2" Blue Tape: <input type="number" name="1_1_2_Blue_Tape"></label>
+            <label class="item-label">2" Blue Tape: <input type="number" name="2_Blue_Tape"></label>
+            <label class="item-label">Duct Tape: <input type="number" name="Duct_Tape"></label>
+            <label class="item-label">Caution Tape: <input type="number" name="Caution_Tape"></label>
+            <label class="item-label">Danger Tape: <input type="number" name="Danger_Tape"></label>
+            <label class="item-label">Danger-Lead Tape: <input type="number" name="Danger_Lead_Tape"></label>
+            <label class="item-label">Blast Tape: <input type="number" name="Blast_Tape"></label>
+        </div>
+
+        <!-- Abrasives -->
+        <div class="section">
+            <h2>Abrasives</h2>
+            <label class="item-label">50 Grit Sandpaper: <input type="number" name="50_Grit_Sandpaper"></label>
+            <label class="item-label">80 Grit Sandpaper: <input type="number" name="80_Grit_Sandpaper"></label>
+            <label class="item-label">100 Grit Sandpaper: <input type="number" name="100_Grit_Sandpaper"></label>
+            <label class="item-label">120 Grit Sandpaper: <input type="number" name="120_Grit_Sandpaper"></label>
+            <label class="item-label">150 Grit Sandpaper: <input type="number" name="150_Grit_Sandpaper"></label>
+            <label class="item-label">220 Grit Sandpaper: <input type="number" name="220_Grit_Sandpaper"></label>
+            <label class="item-label">60 Grit Disk: <input type="number" name="60_Grit_Disk"></label>
+            <label class="item-label">80 Grit Disk: <input type="number" name="80_Grit_Disk"></label>
+            <label class="item-label">120 Grit Disk: <input type="number" name="120_Grit_Disk"></label>
+            <label class="item-label">Scotch-Brite Pads: <input type="number" name="Scotch_Brite_Pads"></label>
+            <label class="item-label">Sanding Sponge: <input type="number" name="Sanding_Sponge"></label>
+            <label class="item-label">Wire Brush: <input type="number" name="Wire_Brush"></label>
+        </div>
+
+        <!-- Spray Accessories -->
+        <div class="section">
+            <h2>Spray Accessories</h2>
+            <label class="item-label">Spray Housing: <input type="number" name="Spray_Housing"></label>
+            <label class="item-label">Spray Tip: <input type="number" name="Spray_Tip"></label>
+        </div>
+
+        <!-- Misc. -->
+        <div class="section">
+            <h2>Misc.</h2>
+            <label class="item-label">Box of Rags: <input type="number" name="Box_of_Rags"></label>
+            <label class="item-label">1 Gal Paddle Mixer: <input type="number" name="1_Gal_Paddle_Mixer"></label>
+            <label class="item-label">5 Gal Paddle Mixer: <input type="number" name="5_Gal_Paddle_Mixer"></label>
+            <label class="item-label">5 Gal Strainer: <input type="number" name="5_Gal_Strainer"></label>
+            <label class="item-label">1 Gal Strainer: <input type="number" name="1_Gal_Strainer"></label>
+            <label class="item-label">Pump Strainer: <input type="number" name="Pump_Strainer"></label>
+            <label class="item-label">Contractor Bags: <input type="number" name="Contractor_Bags"></label>
+            <label class="item-label">55 Gal Trash Bags: <input type="number" name="55_Gal_Trash_Bags"></label>
+            <label class="item-label">Visqueen-1.2 mil: <input type="number" name="Visqueen_1_2_mil"></label>
+            <label class="item-label">Visqueen-4 mil: <input type="number" name="Visqueen_4_mil"></label>
+            <label class="item-label">Spray Glue: <input type="number" name="Spray_Glue"></label>
+            <label class="item-label">Tie Wire: <input type="number" name="Tie_Wire"></label>
+            <label class="item-label">Stapler: <input type="number" name="Stapler"></label>
+            <label class="item-label">Staples: <input type="number" name="Staples"></label>
+            <label class="item-label">Scissors: <input type="number" name="Scissors"></label>
+            <label class="item-label">Air Horn: <input type="number" name="Air_Horn"></label>
+            <label class="item-label">Trans Fluid: <input type="number" name="Trans_Fluid"></label>
+            <label class="item-label">Washer Fluid: <input type="number" name="Washer_Fluid"></label>
+            <label class="item-label">Anti-Freeze: <input type="number" name="Anti_Freeze"></label>
+            <label class="item-label">Hand/Foot Warmer: <input type="number" name="Hand_Foot_Warmer"></label>
+            <label class="item-label">Blast Gaskets: <input type="number" name="Blast_Gaskets"></label>
+            <label class="item-label">Spray Paint Yellow: <input type="number" name="Spray_Paint_Yellow"></label>
+            <label class="item-label">Spray Paint Orange: <input type="number" name="Spray_Paint_Orange"></label>
+        </div>
+
+               <!-- Additional Supplies -->
+        <div class="section">
+            <h2>Additional Supplies Needed</h2>
+            <label class="item-label">If you need any items not listed above, please describe them here:</label>
+            <textarea name="Additional_Supplies" rows="4" placeholder="Type additional supplies needed..."></textarea>
+        </div>
+
+        <button type="submit">Submit Order</button>
+    </form>
+</div>
+</body>
+</html>
+
+
+
