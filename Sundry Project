@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,26 +11,32 @@
             color: yellow;
             font-family: Arial, sans-serif;
         }
+
         h1, h2 {
             color: white;
         }
+
         .container {
             width: 90%;
             margin: auto;
             padding: 20px;
         }
+
         .section {
             margin-top: 20px;
             padding: 10px;
             border: 1px solid yellow;
         }
+
         label, input {
             display: block;
             margin-bottom: 10px;
         }
+
         .item-label {
             margin: 5px 0;
         }
+
         .submit-btn {
             background-color: yellow;
             color: black;
@@ -39,65 +46,33 @@
             cursor: pointer;
             margin-top: 20px;
         }
+
         .submit-btn:hover {
             background-color: white;
             color: black;
         }
     </style>
 </head>
+
 <body>
-    <script>
-        function processForm(event) {
-            event.preventDefault(); // Prevent default form submission
+    <div class="container">
+        <h1>Field Order App By Erik</h1>
+        <form onsubmit="processForm(event)">
+            <!-- Order Information -->
+            <div class="section">
+                <h2>Order Information</h2>
+                <label for="Foreman_Name">Foreman Name:</label>
+                <input type="text" id="Foreman_Name" name="Foreman_Name" required>
+                <label for="Job_Number">Job Number:</label>
+                <input type="text" id="Job_Number" name="Job_Number" required>
+                <label for="Date_Requested">Date Requested:</label>
+                <input type="date" id="Date_Requested" name="Date_Requested" required>
+                <label for="Date_Needed_By">Date Needed By:</label>
+                <input type="date" id="Date_Needed_By" name="Date_Needed_By" required>
+            </div>
 
-            // Collect form data
-            const form = event.target;
-            const formData = new FormData(form);
-
-            // Filter out empty fields
-            const filteredData = {};
-            formData.forEach((value, key) => {
-                if (value && value.trim() !== "" && value > 0) {
-                    filteredData[key] = value;
-                }
-            });
-
-            // Format the email content
-            const emailBody = `
-                Foreman Name: ${filteredData.Foreman_Name || ''}
-                Job Number: ${filteredData.Job_Number || ''}
-                Date Requested: ${filteredData.Date_Requested || ''}
-                Date Needed By: ${filteredData.Date_Needed_By || ''}
-                
-                Items Ordered:
-                ${Object.keys(filteredData)
-                    .filter(key => !['Foreman_Name', 'Job_Number', 'Date_Requested', 'Date_Needed_By', 'Additional_Supplies'].includes(key))
-                    .map(key => `${key}: ${filteredData[key]}`)
-                    .join('\n')}
-                
-                Additional Supplies:
-                ${filteredData.Additional_Supplies || 'None'}
-            `;
-
-            // Send email via mailto
-            const mailtoLink = `mailto:MuladoreErik@gmail.com?subject=Sundries Order&body=${encodeURIComponent(emailBody)}`;
-            window.location.href = mailtoLink;
-        }
-    </script>
-</head>
-<body>
-<div class="form-container">
-    <h1>Field Order App By Erik</h1>
-    <form onsubmit="processForm(event)">
-        <div class="section">
-            <h2>Order Information</h2>
-            <label class="item-label">Foreman Name: <input type="text" name="Foreman_Name" required></label>
-            <label class="item-label">Job Number: <input type="text" name="Job_Number" required></label>
-            <label class="item-label">Date Requested: <input type="date" name="Date_Requested" required></label>
-            <label class="item-label">Date Needed By: <input type="date" name="Date_Needed_By" required></label>
-        </div>
-
-<!-- General PPE -->
+            
+            <!-- General PPE -->
         <div class="section">
             <h2>General PPE</h2>
             <label class="item-label">Safety Glasses (Clear): <input type="number" name="Safety_Glasses_Clear"></label>
@@ -297,19 +272,37 @@
             <label class="item-label">Spray Paint Yellow: <input type="number" name="Spray_Paint_Yellow"></label>
             <label class="item-label">Spray Paint Orange: <input type="number" name="Spray_Paint_Orange"></label>
         </div>
+<!-- Additional Supplies -->
+            <div class="section">
+                <h2>Additional Supplies Needed</h2>
+                <label for="Additional_Supplies">Describe items not listed:</label>
+                <textarea id="Additional_Supplies" name="Additional_Supplies" rows="4" placeholder="Type additional supplies needed..."></textarea>
+            </div>
 
-               <!-- Additional Supplies -->
-        <div class="section">
-            <h2>Additional Supplies Needed</h2>
-            <label class="item-label">If you need any items not listed above, please describe them here:</label>
-            <textarea name="Additional_Supplies" rows="4" placeholder="Type additional supplies needed..."></textarea>
-        </div>
 
-        <button type="submit">Submit Order</button>
-    </form>
-</div>
+            <button type="submit" class="submit-btn">Submit Order</button>
+        </form>
+    </div>
+
+    <script>
+        function processForm(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const filteredData = {};
+            formData.forEach((value, key) => {
+                if (value && value.trim() !== "" && Number(value) > 0) {
+                    filteredData[key] = value;
+                }
+            });
+
+            console.log(filteredData);
+            alert('Order submitted successfully!');
+        }
+    </script>
 </body>
-</html>
 
+</html>
 
 
